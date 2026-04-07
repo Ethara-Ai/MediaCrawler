@@ -27,37 +27,22 @@ router = APIRouter(prefix="/crawler", tags=["crawler"])
 @router.post("/start")
 async def start_crawler(request: CrawlerStartRequest):
     """Start crawler task"""
-    success = await crawler_manager.start(request)
-    if not success:
-        # Handle concurrent/duplicate requests: if process is already running, return 400 instead of 500
-        if crawler_manager.process and crawler_manager.process.poll() is None:
-            raise HTTPException(status_code=400, detail="Crawler is already running")
-        raise HTTPException(status_code=500, detail="Failed to start crawler")
-
-    return {"status": "ok", "message": "Crawler started successfully"}
+    pass
 
 
 @router.post("/stop")
 async def stop_crawler():
     """Stop crawler task"""
-    success = await crawler_manager.stop()
-    if not success:
-        # Handle concurrent/duplicate requests: if process already exited/doesn't exist, return 400 instead of 500
-        if not crawler_manager.process or crawler_manager.process.poll() is not None:
-            raise HTTPException(status_code=400, detail="No crawler is running")
-        raise HTTPException(status_code=500, detail="Failed to stop crawler")
-
-    return {"status": "ok", "message": "Crawler stopped successfully"}
+    pass
 
 
 @router.get("/status", response_model=CrawlerStatusResponse)
 async def get_crawler_status():
     """Get crawler status"""
-    return crawler_manager.get_status()
+    pass
 
 
 @router.get("/logs")
 async def get_logs(limit: int = 100):
     """Get recent logs"""
-    logs = crawler_manager.logs[-limit:] if limit > 0 else crawler_manager.logs
-    return {"logs": [log.model_dump() for log in logs]}
+    pass
